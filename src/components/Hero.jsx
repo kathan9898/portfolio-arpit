@@ -78,7 +78,7 @@ const Hero = () => {
               <div className="portrait-glow"></div>
               <div className="portrait-frame">
                 <img 
-                  src="../src/assets/me.png" 
+                  src="/me.png" 
                   alt="Arpit - Portrait & Cinematic Photographer"
                   className="portrait-image"
                 />
