@@ -1,55 +1,106 @@
-import { motion } from "framer-motion";
-import me from "./assets/me.png";
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import Navbar from './components/Navbar'
+import Hero from './components/Hero'
+import Collections from './components/Collections'
+import Contact from './components/Contact'
+import './App.css'
 
-export default function App() {
+function App() {
+  const [currentTheme, setCurrentTheme] = useState('default')
+  const [isScrolledToHero, setIsScrolledToHero] = useState(true)
+
+  // Apply theme to document root
+  useEffect(() => {
+    const root = document.documentElement
+    if (currentTheme === 'default') {
+      root.removeAttribute('data-theme')
+    } else {
+      root.setAttribute('data-theme', currentTheme)
+    }
+  }, [currentTheme])
+
+  // Scroll-based theme reset
+  useEffect(() => {
+    const handleScroll = () => {
+      const heroSection = document.getElementById('home')
+      if (heroSection) {
+        const heroBottom = heroSection.offsetTop + heroSection.offsetHeight
+        const scrollPosition = window.scrollY + window.innerHeight / 2
+        
+        if (scrollPosition <= heroBottom) {
+          if (!isScrolledToHero) {
+            setCurrentTheme('default')
+            setIsScrolledToHero(true)
+          }
+        } else {
+          setIsScrolledToHero(false)
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    handleScroll() // Check initial position
+    
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [isScrolledToHero])
+
+  const handleThemeChange = (theme) => {
+    setCurrentTheme(theme)
+    setIsScrolledToHero(false)
+  }
+
   return (
-    <div className="container">
-      <section className="hero">
-        {/* LEFT: text */}
-        <motion.div
-          className="panel"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          viewport={{ once: true }}
-        >
-          <span className="kicker">
-            <span>Available for shoots</span>
-            <span aria-hidden>•</span>
-            <span>Perth & Remote</span>
-          </span>
-
-          <h1>
-            I’m <span style={{ color: "var(--ring)" }}>Arpit Prajapati</span>,<br />
-            a Portrait & Cinematic Photographer
-          </h1>
-
-          <p className="sub">
-            I craft moody, story-driven visuals — blending practical lighting with
-            subtle color to make subjects feel cinematic and alive. Let’s turn your
-            moments into frames you’ll never forget.
-          </p>
-
-          <div className="cta-row">
-            <a className="btn primary" href="mailto:you@example.com">Book a Session</a>
-            <a className="btn" href="#work">View Selected Work</a>
+    <motion.div 
+      className="app"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
+      <Navbar />
+      <main>
+        <Hero />
+        <Collections 
+          currentTheme={currentTheme} 
+          onThemeChange={handleThemeChange} 
+        />
+        <Contact />
+      </main>
+      
+      {/* Simple Footer */}
+      <motion.footer 
+        className="footer"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+      >
+        <div className="container">
+          <div className="footer-content">
+            <p className="footer-text">
+              © 2025 Arpit Photography — Crafting visual poetry
+            </p>
+            <div className="footer-links">
+              <motion.a
+                href="https://instagram.com/arpit.captures"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -2 }}
+              >
+                Instagram
+              </motion.a>
+              <motion.a
+                href="mailto:patelkathan6868@gmail.com"
+                whileHover={{ y: -2 }}
+              >
+                Contact
+              </motion.a>
+            </div>
           </div>
-        </motion.div>
-
-        {/* RIGHT: glowing round portrait */}
-        <motion.div
-          className="portrait-wrap"
-          initial={{ opacity: 0, scale: 0.92 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-        >
-          <div className="portrait" role="img" aria-label="Photographer portrait">
-            {/* Put your transparent PNG in /public/me.png */}
-            <img src={me} alt="Portrait" />
-          </div>
-        </motion.div>
-      </section>
-    </div>
-  );
+        </div>
+      </motion.footer>
+    </motion.div>
+  )
 }
+
+export default App
