@@ -27,6 +27,7 @@ const Hero = () => {
             
             <motion.h1 
               className="hero-title"
+              data-text="Arpit"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
@@ -75,14 +76,93 @@ const Hero = () => {
             transition={{ delay: 0.4, duration: 1.2, ease: "easeOut" }}
           >
             <div className="portrait-container">
-              <div className="portrait-glow"></div>
-              <div className="portrait-frame">
-                <img 
-                  src="/me.png" 
-                  alt="Arpit - Portrait & Cinematic Photographer"
-                  className="portrait-image"
-                />
-              </div>
+              {/* Background Elements */}
+              <motion.div 
+                className="portrait-bg-shapes"
+                animate={{ 
+                  rotate: [0, 10, -10, 0],
+                  scale: [1, 1.05, 0.95, 1] 
+                }}
+                transition={{ 
+                  duration: 20, 
+                  repeat: Infinity, 
+                  ease: "easeInOut" 
+                }}
+              >
+                <div className="bg-shape shape-1"></div>
+                <div className="bg-shape shape-2"></div>
+                <div className="bg-shape shape-3"></div>
+              </motion.div>
+
+              {/* Main Portrait Frame */}
+              <motion.div 
+                className="portrait-main-frame"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="portrait-image-container">
+                  <img 
+                    src="/me.png" 
+                    alt="Arpit - Portrait & Cinematic Photographer"
+                    className="portrait-image"
+                  />
+                  <div className="portrait-overlay"></div>
+                </div>
+              </motion.div>
+
+              {/* Floating Elements */}
+              <motion.div 
+                className="floating-element element-1"
+                animate={{ 
+                  y: [0, -10, 0],
+                  opacity: [0.6, 1, 0.6] 
+                }}
+                transition={{ 
+                  duration: 4, 
+                  repeat: Infinity, 
+                  ease: "easeInOut" 
+                }}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21,15 16,10 5,21"/>
+                </svg>
+              </motion.div>
+
+              <motion.div 
+                className="floating-element element-2"
+                animate={{ 
+                  y: [0, 8, 0],
+                  x: [0, -5, 0] 
+                }}
+                transition={{ 
+                  duration: 6, 
+                  repeat: Infinity, 
+                  ease: "easeInOut",
+                  delay: 1 
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+                  <circle cx="12" cy="13" r="3"/>
+                </svg>
+              </motion.div>
+
+              <motion.div 
+                className="floating-element element-3"
+                animate={{ 
+                  rotate: [0, 180, 360],
+                  scale: [1, 1.1, 1] 
+                }}
+                transition={{ 
+                  duration: 12, 
+                  repeat: Infinity, 
+                  ease: "linear" 
+                }}
+              >
+                <div className="element-dot"></div>
+              </motion.div>
             </div>
           </motion.div>
         </div>

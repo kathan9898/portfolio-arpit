@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - Arpit Prajapati Photography</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background-color: #faf9f6;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #ffffff;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.02)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.02)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.03)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tagline {
+            font-size: 14px;
+            font-weight: 300;
+            opacity: 0.8;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .greeting {
+            font-size: 24px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+        
+        .message {
+            font-size: 16px;
+            color: #4a4a4a;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+        
+        .session-details {
+            background-color: #f5f5f0;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border-left: 4px solid #d4af37;
+        }
+        
+        .session-details h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+        }
+        
+        .detail-item {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #2a2a2a;
+            display: inline-block;
+            width: 120px;
+        }
+        
+        .detail-value {
+            color: #4a4a4a;
+        }
+        
+        .contact-info {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .contact-info h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .footer {
+            background-color: #f5f5f0;
+            padding: 25px 30px;
+            text-align: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .footer p {
+            font-size: 12px;
+            color: #8a8a8a;
+            margin-bottom: 5px;
+        }
+        
+        .signature {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 10px;
+                border-radius: 8px;
+            }
+            
+            .header, .content, .contact-info, .footer {
+                padding: 25px 20px;
+            }
+            
+            .contact-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .greeting {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <div class="logo">ARPIT PRAJAPATI</div>
+            <div class="tagline">Visual Storyteller</div>
+        </div>
+        
+        <div class="content">
+            <div class="greeting">Hello {{to_name}},</div>
+            
+            <div class="message">
+                Thank you so much for reaching out! I'm absolutely thrilled that you're considering me to capture your special moments and create beautiful memories together.
+            </div>
+            
+            <div class="message">
+                I've received your inquiry and I'm excited to learn more about your vision. Every story is unique, and I can't wait to discuss how we can bring yours to life through photography.
+            </div>
+            
+            {{#if session_type}}
+            <div class="session-details">
+                <h3>Your Inquiry Details</h3>
+                <div class="detail-item">
+                    <span class="detail-label">Session Type:</span>
+                    <span class="detail-value">{{session_type}}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Your Message:</span>
+                    <span class="detail-value">"{{client_message}}"</span>
+                </div>
+            </div>
+            {{/if}}
+            
+            <div class="message">
+                I'll personally review your message and get back to you within 24 hours to discuss your photography needs, available dates, and how we can create something truly magical together.
+            </div>
+            
+            <div class="contact-info">
+                <h3>Let's Connect</h3>
+                <div class="contact-links">
+                    <a href="mailto:{{photographer_email}}" class="contact-link">
+                        📧 {{photographer_email}}
+                    </a>
+                    <a href="tel:{{photographer_phone}}" class="contact-link">
+                        📱 {{photographer_phone}}
+                    </a>
+                    <a href="https://instagram.com/p_arpit4423" class="contact-link">
+                        📸 {{instagram}}
+                    </a>
+                </div>
+            </div>
+            
+            <div class="message">
+                In the meantime, feel free to check out my latest work on Instagram or browse through my portfolio on the website. I believe every photograph should tell a story, and I'm honored you're considering me to tell yours.
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>This email was sent from Arpit Prajapati Photography</p>
+            <p>Creating timeless memories through the art of photography</p>
+            <div class="signature">
+                With warmest regards,<br>
+                <strong>{{from_name}}</strong>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

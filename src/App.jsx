@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Collections from './components/Collections'
 import Contact from './components/Contact'
+import CustomCursor from './components/CustomCursor'
 import './App.css'
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
+      <CustomCursor />
       <Navbar />
       <main>
         <Hero />
@@ -82,7 +84,7 @@ function App() {
             </p>
             <div className="footer-links">
               <motion.a
-                href="https://instagram.com/arpit.captures"
+                href="https://instagram.com/p_arpit4423"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ y: -2 }}
@@ -90,7 +92,7 @@ function App() {
                 Instagram
               </motion.a>
               <motion.a
-                href="mailto:patelkathan6868@gmail.com"
+                href="mailto:prajapatiarpit704@gmail.com"
                 whileHover={{ y: -2 }}
               >
                 Contact

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Booking Request - Arpit Prajapati Photography</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background-color: #faf9f6;
+        }
+        
+        .email-container {
+            max-width: 650px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #d4af37 0%, #c65d07 100%);
+            color: #ffffff;
+            padding: 30px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.15)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .alert-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .title {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .urgent-note {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: #ffffff;
+            padding: 20px 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+        }
+        
+        .client-info {
+            background-color: #f5f5f0;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #d4af37;
+        }
+        
+        .client-info h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .info-item {
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .info-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #8a8a8a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+            word-break: break-word;
+        }
+        
+        .session-type {
+            background: linear-gradient(135deg, #87a96b 0%, #6b8e4e 100%);
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-block;
+            text-transform: capitalize;
+        }
+        
+        .message-section {
+            background: #ffffff;
+            border: 2px solid #f0f0f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .message-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .message-text {
+            font-size: 15px;
+            color: #4a4a4a;
+            line-height: 1.7;
+            font-style: italic;
+            background: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 3px solid #d4af37;
+        }
+        
+        .actions {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .actions h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .actions p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .submission-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 30px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .submission-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+        
+        .submission-details p {
+            font-size: 13px;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+        
+        .footer {
+            background-color: #f5f5f0;
+            padding: 25px 30px;
+            text-align: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .footer p {
+            font-size: 12px;
+            color: #8a8a8a;
+        }
+        
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 10px;
+                border-radius: 8px;
+            }
+            
+            .header, .content, .actions, .footer {
+                padding: 25px 20px;
+            }
+            
+            .client-info {
+                padding: 20px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .title {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <div class="alert-badge">🔔 New Inquiry</div>
+            <div class="title">Booking Request Received</div>
+            <div class="subtitle">A potential client is interested in your photography services</div>
+        </div>
+        
+        <div class="content">
+            <div class="urgent-note">
+                📸 New photography inquiry awaiting your response!
+            </div>
+            
+            <div class="client-info">
+                <h3>
+                    👤 Client Information
+                </h3>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Client Name</div>
+                        <div class="info-value">{{client_name}}</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">Email Address</div>
+                        <div class="info-value">{{client_email}}</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">Session Type</div>
+                        <div class="info-value">
+                            <span class="session-type">{{session_type}}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">Submission Date</div>
+                        <div class="info-value">{{submission_date}} at {{submission_time}}</div>
+                    </div>
+                </div>
+                
+                <div class="message-section">
+                    <div class="message-label">
+                        💬 Client's Message
+                    </div>
+                    <div class="message-text">
+                        "{{client_message}}"
+                    </div>
+                </div>
+            </div>
+            
+            <div class="actions">
+                <h3>Quick Actions</h3>
+                <p>Respond promptly to maintain excellent client relationships</p>
+                
+                <div class="action-buttons">
+                    <a href="mailto:{{client_email}}?subject=Re: Photography Session Inquiry - {{session_type}}&body=Hi {{client_name}},%0A%0AThank you for your inquiry about {{session_type}}. I'm excited to discuss your photography needs and how we can create beautiful memories together.%0A%0APlease let me know your preferred dates and any specific requirements you have in mind.%0A%0ALooking forward to hearing from you!%0A%0ABest regards,%0AArpit Prajapati" class="action-btn">
+                        ✉️ Reply via Email
+                    </a>
+                    
+                    <a href="https://wa.me/916352461286?text=Hi {{client_name}}! Thank you for your photography inquiry. I'd love to discuss your {{session_type}} session with you." class="action-btn">
+                        📱 WhatsApp Message
+                    </a>
+                </div>
+            </div>
+            
+            <div class="submission-details">
+                <h4>📋 Submission Details</h4>
+                <p><strong>Form submitted:</strong> {{submission_date}} at {{submission_time}}</p>
+                <p><strong>Client IP:</strong> Tracked via website contact form</p>
+                <p><strong>Source:</strong> Portfolio Website - Contact Section</p>
+                <p><strong>Auto-response:</strong> Thank you email sent to client automatically</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>This email was generated automatically from your portfolio contact form</p>
+            <p><strong>Arpit Prajapati Photography</strong> - Professional Photography Services</p>
+        </div>
+    </div>
+</body>
+</html>

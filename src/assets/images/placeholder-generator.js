@@ -39,21 +39,21 @@ export const fallbackImage = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBo
 
 export const collectionThemes = {
   Haldi: {
-    name: 'Haldi',
+    name: 'Ritual photography',
     description: 'Golden moments of tradition',
     primary: '#E6A960',
     secondary: '#F4E4B8',
     accent: '#D4A574'
   },
   Candid: {
-    name: 'Candid',
+    name: 'Spontaneous photography',
     description: 'Unscripted authentic stories', 
     primary: '#8BBCB7',
     secondary: '#B8D4D1',
     accent: '#6FA09A'
   },
   Lagan: {
-    name: 'Lagan',
+    name: 'Bridal ceremony photography',
     description: 'Sacred vows and eternal love',
     primary: '#E8A788',
     secondary: '#F2C4A6',

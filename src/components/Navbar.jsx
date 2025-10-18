@@ -80,7 +80,7 @@ const Navbar = () => {
             transition={{ delay: 0.6, duration: 0.8 }}
           >
             <motion.a
-              href="https://instagram.com/arpit.captures"
+              href="https://instagram.com/p_arpit4423"
               target="_blank"
               rel="noopener noreferrer"
               className="social-link"
