@@ -1,5 +1,5 @@
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 import emailjs from '@emailjs/browser';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -7,308 +7,217 @@ const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    sessionType: '',
+    phone: '',
+    service: 'Wedding Culling & Color Grading',
     message: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const sendClientThankYou = async (clientData) => {
-    const thankYouTemplate = {
-      to_email: clientData.email,
-      to_name: clientData.name,
-      from_name: 'Arpit Prajapati',
-      session_type: clientData.sessionType,
-      client_message: clientData.message,
-      photographer_email: 'prajapatiarpit704@gmail.com',
-      photographer_phone: '+91 6352 461286',
-      instagram: '@p_arpit4423'
-    };
-
-    return emailjs.send(
-      'service_19y0o5g', // Your EmailJS service ID
-      'template_eanaj58', // Your client thank you template ID
-      thankYouTemplate,
-      'mFHCbbrLJDZPr12J2' // Your EmailJS public key
-    );
-  };
-
-  const sendBookingRequest = async (clientData) => {
-    const bookingTemplate = {
-      to_email: 'prajapatiarpit704@gmail.com',
-      to_name: 'Arpit Prajapati',
-      from_name: 'Portfolio Contact Form',
-      client_name: clientData.name,
-      client_email: clientData.email,
-      session_type: clientData.sessionType || 'Not specified',
-      client_message: clientData.message,
-      submission_date: new Date().toLocaleDateString('en-IN', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      }),
-      submission_time: new Date().toLocaleTimeString('en-IN'),
-      // Additional variables that EmailJS might need
-      user_name: clientData.name,
-      user_email: clientData.email,
-      message: clientData.message
-    };
-
-    console.log('Sending booking request with data:', bookingTemplate);
-    
-    return emailjs.send(
-      'service_19y0o5g', // Your EmailJS service ID
-      'template_v23pyom', // Your booking request template ID
-      bookingTemplate,
-      'mFHCbbrLJDZPr12J2' // Your EmailJS public key
-    );
-  };
-
-  const handleSubmit = async (e) => {
+  const sendEmail = (e) => {
     e.preventDefault();
-    
-    if (!formData.name || !formData.email || !formData.message) {
-      toast.error('Please fill in all required fields', {
-        style: {
-          background: 'rgba(20, 20, 20, 0.95)',
-          color: '#ffffff',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          borderRadius: '12px',
-          fontFamily: 'Inter, sans-serif'
-        }
-      });
-      return;
-    }
+    setLoading(true);
 
-    setIsSubmitting(true);
-    
-    try {
-      // Send booking request email only
-      const [bookingResult] = await Promise.allSettled([
-        sendBookingRequest(formData)
-        // sendClientThankYou(formData) // Commented out - client thank you email disabled
-      ]);
+    // Constructing the casual, detailed message for the editor
+    const fullMessage = `
+Hey Arpit,
 
-      console.log('Booking request result:', bookingResult);
-      // console.log('Thank you email result:', thankYouResult); // Commented out - thank you email disabled
+You've got a new inquiry from ${formData.name}!
 
-      // Check if at least the booking request was successful
-      if (bookingResult.status === 'fulfilled') {
-        toast.success('Message sent successfully! We\'ll connect with you shortly.', {
-          duration: 5000,
+Here are the details:
+------------------------------------------
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone || 'Not provided'}
+Service: ${formData.service}
+------------------------------------------
+
+Message:
+"${formData.message}"
+
+Cheers,
+Your Portfolio Site
+    `;
+
+    // Replace these with your actual EmailJS credentials
+    // Service ID: service_xxxxxxx
+    // Template ID: template_xxxxxxx
+    // Public Key: your_public_key_here
+
+    // Using placeholders as requested to restore structure. 
+    // Please fill in your actual keys from the EmailJS dashboard.
+    emailjs.send(
+      'service_19y0o5g',
+      'template_v23pyom',
+      {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: fullMessage,
+        // We also send individual fields in case your template uses them directly
+        user_name: formData.name,
+        user_email: formData.email,
+        user_phone: formData.phone,
+        service_type: formData.service,
+        original_message: formData.message
+      },
+      'mFHCbbrLJDZPr12J2'
+    )
+      .then((result) => {
+        setLoading(false);
+        toast.success("Thank you! I'll be in touch shortly.", {
           style: {
-            background: 'rgba(20, 20, 20, 0.95)',
-            color: '#ffffff',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '12px',
-            fontFamily: 'Inter, sans-serif'
-          }
+            background: '#F5F5DC',
+            color: '#4169E1',
+            fontFamily: 'Lato, sans-serif',
+          },
+          iconTheme: {
+            primary: '#4169E1',
+            secondary: '#F5F5DC',
+          },
         });
-
-        // Reset form
         setFormData({
           name: '',
           email: '',
-          sessionType: '',
+          phone: '',
+          service: 'Wedding Culling & Color Grading',
           message: ''
         });
-      } else {
-        throw new Error('Booking request failed: ' + bookingResult.reason?.text || bookingResult.reason);
-      }
-
-      // Log any thank you email errors separately
-      // if (thankYouResult.status === 'rejected') {
-      //   console.error('Thank you email failed:', thankYouResult.reason);
-      //   // Don't show error to user if main booking email succeeded
-      // }
-
-    } catch (error) {
-      console.error('Error sending emails:', error);
-      console.error('Full error details:', {
-        text: error.text,
-        status: error.status,
-        message: error.message
+      }, (error) => {
+        setLoading(false);
+        toast.error("Something went wrong. Please try again.", {
+          style: {
+            background: '#F5F5DC',
+            color: '#800000',
+            fontFamily: 'Lato, sans-serif',
+          }
+        });
+        console.error(error.text);
       });
-      
-      toast.error(`Failed to send message: ${error.text || error.message}. Please try again or contact directly.`, {
-        duration: 6000,
-        style: {
-          background: 'rgba(20, 20, 20, 0.95)',
-          color: '#ffffff',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          borderRadius: '12px',
-          fontFamily: 'Inter, sans-serif'
-        }
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   return (
-    <section id="contact" className="contact-section section">
-      <div className="container">
-        <div className="contact-content">
-          <motion.div 
-            className="contact-info"
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="contact-title">Let's Create Together</h2>
-            <p className="contact-description">
-              Every story deserves to be told with grace. Whether it's capturing the intimacy of a portrait, 
-              the magic of your special day, or the authentic moments that define your journey—I'm here to 
-              craft visual poetry from your most treasured memories.
-            </p>
-            
-            <div className="contact-details">
-              <motion.a 
-                href="mailto:prajapatiarpit704@gmail.com"
-                className="contact-link"
-                whileHover={{ scale: 1.02, x: 5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                  <polyline points="22,6 12,13 2,6"/>
-                </svg>
-                <span>prajapatiarpit704@gmail.com</span>
-              </motion.a>
-              
-              <motion.a 
-                href="tel:+916352461286"
-                className="contact-link"
-                whileHover={{ scale: 1.02, x: 5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                </svg>
-                <span>+91 6352 461286</span>
-              </motion.a>
-              
-              <motion.a 
-                href="https://instagram.com/p_arpit4423"
-                className="contact-link"
-                whileHover={{ scale: 1.02, x: 5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                  <path d="m16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                </svg>
-                <span>@arpit</span>
-              </motion.a>
+    <section id="contact" className="section-padding relative overflow-hidden">
+      <Toaster position="bottom-center" />
+      <div className="container mx-auto max-w-4xl relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-accent font-sans text-sm uppercase tracking-[0.2em] mb-4">
+            Inquiries
+          </h2>
+          <h3 className="text-4xl md:text-5xl font-serif font-bold text-primary mb-6">
+            Elevate Your Imagery
+          </h3>
+          <p className="text-text-light text-lg font-light max-w-2xl mx-auto">
+            Ready to transform your raw captures into editorial masterpieces?
+            Let's discuss your vision and how my high-end retouching services can refine your portfolio.
+          </p>
+        </div>
+
+        <motion.form
+          onSubmit={sendEmail}
+          className="space-y-6 bg-white/40 backdrop-blur-sm p-8 md:p-12 border border-primary/10 shadow-sm"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="name" className="block text-text-dark font-sans text-xs uppercase tracking-widest mb-2 font-semibold">Name</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className="w-full bg-white border border-primary/20 p-4 focus:outline-none focus:border-primary transition-colors font-serif text-primary placeholder:text-primary/30"
+                placeholder="John Doe"
+              />
             </div>
-          </motion.div>
-          
-          <motion.div 
-            className="contact-form-container"
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <form className="contact-form glass" onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="name">Your Name</label>
-                <input 
-                  type="text" 
-                  id="name" 
-                  name="name" 
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required 
-                />
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="email">Email Address</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  name="email" 
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required 
-                />
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="session-type">Session Type</label>
-                <select 
-                  id="session-type" 
-                  name="sessionType"
-                  value={formData.sessionType}
-                  onChange={handleInputChange}
-                >
-                  <option value="">Select a session type</option>
-                  <option value="portrait">Portrait Session</option>
-                  <option value="wedding">Wedding Photography</option>
-                  <option value="event">Event Photography</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="message">Your Story</label>
-                <textarea 
-                  id="message" 
-                  name="message" 
-                  rows="5" 
-                  placeholder="Tell me about your vision, your special moment, or what story you'd like to capture..."
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  required
-                ></textarea>
-              </div>
-              
-              <motion.button 
-                type="submit" 
-                className="submit-button"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                disabled={isSubmitting}
-                style={{
-                  opacity: isSubmitting ? 0.7 : 1,
-                  cursor: isSubmitting ? 'not-allowed' : 'pointer'
-                }}
+            <div>
+              <label htmlFor="email" className="block text-text-dark font-sans text-xs uppercase tracking-widest mb-2 font-semibold">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full bg-white border border-primary/20 p-4 focus:outline-none focus:border-primary transition-colors font-serif text-primary placeholder:text-primary/30"
+                placeholder="example@gmail.com"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="phone" className="block text-text-dark font-sans text-xs uppercase tracking-widest mb-2 font-semibold">Phone (Optional)</label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full bg-white border border-primary/20 p-4 focus:outline-none focus:border-primary transition-colors font-serif text-primary placeholder:text-primary/30"
+                placeholder="+91 1234 567890"
+              />
+            </div>
+            <div>
+              <label htmlFor="service" className="block text-text-dark font-sans text-xs uppercase tracking-widest mb-2 font-semibold">Service Required</label>
+              <select
+                name="service"
+                value={formData.service}
+                onChange={handleChange}
+                className="w-full bg-white border border-primary/20 p-4 focus:outline-none focus:border-primary transition-colors font-serif text-primary cursor-pointer"
               >
-                <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
-                {isSubmitting ? (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="animate-spin">
-                    <path d="M21 12a9 9 0 11-6.219-8.56"/>
-                  </svg>
-                ) : (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <line x1="22" y1="2" x2="11" y2="13"/>
-                    <polygon points="22,2 15,22 11,13 2,9 22,2"/>
-                  </svg>
-                )}
-              </motion.button>
-            </form>
-          </motion.div>
+                <option>Wedding Culling & Color Grading</option>
+                <option>High-End Beauty Retouching</option>
+                <option>Editorial & Fashion</option>
+                <option>Commercial Product Retouching</option>
+                <option>Bulk Event Processing</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="message" className="block text-text-dark font-sans text-xs uppercase tracking-widest mb-2 font-semibold">Project Details</label>
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              rows="5"
+              required
+              className="w-full bg-white border border-primary/20 p-4 focus:outline-none focus:border-primary transition-colors font-serif text-primary placeholder:text-primary/30"
+              placeholder="Tell me about your project volume, style preferences, and turnaround requirements..."
+            ></textarea>
+          </div>
+
+          <div className="text-center pt-4">
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-primary w-full md:w-auto min-w-[200px] disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Sending...' : 'Request Consultation'}
+            </button>
+          </div>
+        </motion.form>
+
+        <div className="mt-12 flex flex-col md:flex-row justify-center items-center gap-8 text-text-light font-light text-sm">
+          <a href="mailto:prajapatiarpit704@gmail.com" className="hover:text-primary transition-colors flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+            prajapatiarpit704@gmail.com
+          </a>
+          <a href="tel:+916352461286" className="hover:text-primary transition-colors flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+            +91 6352 461286
+          </a>
+          <a href="https://instagram.com/p_arpit4423" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01M7.8 21h8.4a5.5 5.5 0 005.5-5.5v-5.5a5.5 5.5 0 00-5.5-5.5H7.8a5.5 5.5 0 00-5.5 5.5v5.5a5.5 5.5 0 005.5 5.5z" /></svg>
+            @p_arpit4423
+          </a>
         </div>
       </div>
-      <Toaster 
-        position="bottom-right"
-        toastOptions={{
-          duration: 4000,
-        }}
-      />
     </section>
   );
 };

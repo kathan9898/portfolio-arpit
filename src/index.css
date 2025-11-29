@@ -1,192 +1,45 @@
-/* CSS Variables for Elegant Portfolio Theme */
-:root {
-  /* Base palette - soft, natural, elegant */
-  --color-sage: #A8B4A0;
-  --color-cream: #F7F5F1;
-  --color-stone: #E5E1DC;
-  --color-charcoal: #2D2B28;
-  --color-olive: #6B7361;
-  --color-mist: #F9F8F6;
-  
-  /* Dynamic theme colors - will change per collection */
-  --theme-primary: var(--color-sage);
-  --theme-secondary: var(--color-stone);
-  --theme-accent: var(--color-olive);
-  
-  /* Base colors */
-  --bg-primary: var(--color-mist);
-  --bg-secondary: var(--color-cream);
-  --text-primary: var(--color-charcoal);
-  --text-secondary: var(--color-olive);
-  --text-muted: #8A8985;
-  
-  /* Glass and glow effects */
-  --glass-bg: rgba(247, 245, 241, 0.8);
-  --glass-border: rgba(139, 137, 133, 0.2);
-  --glow-soft: rgba(168, 180, 160, 0.3);
-  
-  /* Spacing and sizing */
-  --radius: 16px;
-  --radius-lg: 24px;
-  --spacing-xs: 8px;
-  --spacing-sm: 16px;
-  --spacing-md: 24px;
-  --spacing-lg: 48px;
-  --spacing-xl: 64px;
-  
-  /* Typography */
-  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  --font-weight-light: 300;
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #4169E1;
+  --color-accent: #800000;
+  --color-beige: #F5F5DC;
+  --color-beige-dark: #E8E8C8;
+  --color-text-dark: #1A1A1A;
+  --color-text-light: #4A4A4A;
+
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Lato", sans-serif;
+
+  --image-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
 }
 
-/* Theme variations */
-[data-theme="Haldi"] {
-  --theme-primary: #E6A960;
-  --theme-secondary: #F4E4B8;
-  --theme-accent: #D4A574;
-  --glow-soft: rgba(230, 169, 96, 0.3);
-}
-
-[data-theme="candid"] {
-  --theme-primary: #8BBCB7;
-  --theme-secondary: #B8D4D1;
-  --theme-accent: #6FA09A;
-  --glow-soft: rgba(139, 188, 183, 0.3);
-}
-
-[data-theme="lagan"] {
-  --theme-primary: #E8A788;
-  --theme-secondary: #F2C4A6;
-  --theme-accent: #D18E6F;
-  --glow-soft: rgba(232, 167, 136, 0.3);
-}
-
-/* Base styles */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html, body, #root {
-  height: 100%;
-  font-size: 16px;
-}
-
-body {
-  font-family: var(--font-primary);
-  font-weight: var(--font-weight-regular);
-  color: var(--text-primary);
-  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Typography hierarchy */
-h1, h2, h3 {
-  font-weight: var(--font-weight-light);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
-h1 {
-  font-size: clamp(2.5rem, 6vw, 4rem);
-}
-
-h2 {
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
-}
-
-h3 {
-  font-size: clamp(1.25rem, 3vw, 1.75rem);
-}
-
-p {
-  line-height: 1.7;
-}
-
-/* Links */
-a {
-  color: var(--theme-accent);
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-a:hover {
-  opacity: 0.8;
-}
-
-/* Utility classes */
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-md);
-}
-
-.section {
-  padding: var(--spacing-xl) 0;
-}
-
-.glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius);
-}
-
-.glow {
-  box-shadow: 
-    0 4px 24px rgba(0, 0, 0, 0.08),
-    0 0 40px var(--glow-soft);
-}
-
-.whisper-shadow {
-  box-shadow: 
-    0 2px 16px rgba(0, 0, 0, 0.04),
-    0 8px 32px rgba(0, 0, 0, 0.06);
-}
-
-/* Animations */
-@keyframes gentle-float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes soft-glow {
-  0%, 100% { 
-    box-shadow: 0 0 20px var(--glow-soft);
-  }
-  50% { 
-    box-shadow: 0 0 40px var(--glow-soft);
-  }
-}
-
-@keyframes theme-transition {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Responsive typography */
-@media (max-width: 768px) {
+@layer base {
   body {
-    font-size: 14px;
+    @apply bg-beige text-text-dark font-sans antialiased;
+    background-image: var(--image-grain);
   }
-  
-  .container {
-    padding: 0 var(--spacing-sm);
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif text-primary;
   }
-  
-  .section {
-    padding: var(--spacing-lg) 0;
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-8 py-3 bg-primary text-white font-sans font-semibold tracking-wide hover:bg-blue-700 transition-all duration-300 rounded-sm uppercase text-sm;
+  }
+
+  .btn-outline {
+    @apply px-8 py-3 border border-primary text-primary font-sans font-semibold tracking-wide hover:bg-primary hover:text-white transition-all duration-300 rounded-sm uppercase text-sm;
+  }
+
+  .section-padding {
+    @apply py-20 md:py-32 px-6 md:px-12;
   }
 }
